@@ -22,12 +22,21 @@ namespace KundenGUI
 
         private void anzeigenKundenButton_Click(object sender, EventArgs e)
         {
-            lstKunde = dto.getAlleKunden();
-            comboBoxKunde.DataSource = lstKunde;
+            dto = null;
+            dto = new DataTransfer();
+            lstKunde = dto.getAlleKunden();         
             DataBinding();
         }
         private void DataBinding()
         {
+            comboBoxKunde.DataSource = null;
+            comboBoxKunde.DataSource = lstKunde;
+
+            textBoxKundenID.DataBindings.Clear();
+            textBoxVorname.DataBindings.Clear();
+            textBoxNachname.DataBindings.Clear();
+            textBoxGebDat.DataBindings.Clear();
+
             textBoxKundenID.DataBindings.Add("Text", lstKunde, "KundenID");
             textBoxVorname.DataBindings.Add("Text", lstKunde, "Vorname");
             textBoxNachname.DataBindings.Add("Text", lstKunde, "Name");
@@ -36,8 +45,18 @@ namespace KundenGUI
 
         private void buttonNeu_Click(object sender, EventArgs e)
         {
-            NeuerKunde nk = new NeuerKunde();
-            nk.Show();
+            NeuerKunde nk = new NeuerKunde(dto);
+            nk.ShowDialog();
+            if(nk.NeuerKunde1 != null)
+            {
+                if (dto.updateKunde(nk.NeuerKunde1) == true)
+                { toolStripStatusLabel1.Text = "Gespeichert"; }
+                else
+                { toolStripStatusLabel1.Text = "Nicht Gespeichert"; }
+                lstKunde.Add(nk.NeuerKunde1);
+                DataBinding();
+            }
+            
         }
     }
 }

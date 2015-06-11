@@ -59,5 +59,21 @@ namespace DataAccess
             }      
             return result;
         }
+        public Boolean updateKunde(Kunde k)
+        {
+            if (con == null) OpenConnection();
+            OleDbCommand cmd = con.CreateCommand();
+            cmd.Parameters.AddWithValue("kid", k.KundenID).OleDbType = OleDbType.WChar;
+            cmd.Parameters.AddWithValue("nname", k.Name).OleDbType = OleDbType.WChar;
+            cmd.Parameters.AddWithValue("vname", k.Vorname).OleDbType = OleDbType.WChar;
+            cmd.Parameters.AddWithValue("gebd", k.GebDat).OleDbType = OleDbType.WChar;     
+            cmd.CommandText = "Insert into Kunden (KundenID, Name, VName, GebDat) Values (?,?,?,?)";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { return false; }
+            return true;
+        }
     }
 }

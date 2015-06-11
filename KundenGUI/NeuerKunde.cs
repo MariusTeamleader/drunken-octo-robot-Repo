@@ -13,6 +13,7 @@ namespace KundenGUI
 {
     public partial class NeuerKunde : Form
     {
+        DataTransfer kg = null;
         Kunde neuerKunde = null;
         public Kunde NeuerKunde1
         {
@@ -20,20 +21,27 @@ namespace KundenGUI
             set { neuerKunde = value; }
         }
 
-        public NeuerKunde()
+        public NeuerKunde(DataTransfer kg)
         {
             InitializeComponent();
+            this.kg = kg;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
             //neues Objekt erzeugen
             //Daten aus Textbox
+            neuerKunde = new Kunde();
+            neuerKunde.KundenID = textBoxKundenID.Text;
+            neuerKunde.Vorname = textBoxVorname.Text;
+            neuerKunde.Name = textBoxNachname.Text;
+            neuerKunde.GebDat = textBoxGebDat.Text;
+            this.Dispose();
         }
 
         private void buttonAbbruch_Click(object sender, EventArgs e)
         {
-
+            this.Dispose();
         }
     }
 }
